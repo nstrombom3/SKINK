@@ -1,0 +1,46 @@
+#include "SkinkApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+
+template<>
+InputParameters validParams<SkinkApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+
+  params.set<bool>("use_legacy_uo_initialization") = false;
+  params.set<bool>("use_legacy_uo_aux_computation") = false;
+  return params;
+}
+
+SkinkApp::SkinkApp(const std::string & name, InputParameters parameters) :
+    MooseApp(name, parameters)
+{
+  srand(processor_id());
+
+  Moose::registerObjects(_factory);
+  SkinkApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  SkinkApp::associateSyntax(_syntax, _action_factory);
+}
+
+SkinkApp::~SkinkApp()
+{
+}
+
+extern "C" void SkinkApp__registerApps() { SkinkApp::registerApps(); }
+void
+SkinkApp::registerApps()
+{
+  registerApp(SkinkApp);
+}
+
+void
+SkinkApp::registerObjects(Factory & factory)
+{
+}
+
+void
+SkinkApp::associateSyntax(Syntax & syntax, ActionFactory & action_factory)
+{
+}
