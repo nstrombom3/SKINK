@@ -11,7 +11,7 @@ InputParameters validParams<SkinkApp>();
 class SkinkApp : public MooseApp
 {
 public:
-  SkinkApp(const std::string & name, InputParameters parameters);
+  SkinkApp(InputParameters parameters);
   virtual ~SkinkApp();
 
   static void registerApps();
